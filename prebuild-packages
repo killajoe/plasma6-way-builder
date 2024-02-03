@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# set wheel group to no-password for sudo actions
+echo "%wheel         ALL = (ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+# set path for makepkg package saving in one folder
+#cp -a /etc/makepkg.conf /etc/makepkg.conf.bak
+#echo PKGDEST=/home/build/packages >> /etc/makepkg.conf
+
+# create user
+useradd -m -G wheel -s /bin/bash build
+
+mkdir /home/build/packages
+chown -R build:build /home/build/packages
+
+#sudo -u build yay -S --noconfirm cava
+#sudo cp /home/build/packages/* EndeavourOS-Community-hyprland-ISO/airootfs/root/packages/
+
+# Build liveuser skel
+#sudo cp -a /etc/makepkg.conf.bak /etc/makepkg.conf
+sudo chown -R build:build EndeavourOS-Community-hyprland-ISO/airootfs/root/endeavouros-skel-liveuser
+cd EndeavourOS-Community-hyprland-ISO/airootfs/root/endeavouros-skel-liveuser
+sudo -u build makepkg -f
