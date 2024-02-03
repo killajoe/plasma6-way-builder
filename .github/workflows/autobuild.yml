@@ -1,0 +1,46 @@
+name: Build EndeavourOS devel ISO using plasma6 on wayland
+
+on:
+  schedule:
+    - cron: "0 */12 * * *"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    permissions:
+      contents: write
+
+    container:
+      image: archlinux:latest
+      options: --privileged
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Set current date and hour as environment variable
+        run: echo "NOW=$(date +'%Y-%m-%d_%H-%M')" >> $GITHUB_ENV
+                      
+      - name: Add EndeavourOS Repo
+        run: bash add-EndeavourOS
+        
+      - name: Update packages and install archiso
+        run: "pacman -Syu --noconfirm --needed archiso mkinitcpio-archiso git squashfs-tools wget sudo base-devel curl lftp yay"
+
+      - name: preparations to build ISO
+        run: bash prepare-action
+      
+      - name: create build user and build some packages
+        run: bash prebuild-packages
+    
+      - name: Build ISO
+        run: bash build-iso
+
+      - name: Add hour to release and tarball
+        run: "cp EndeavourOS-Plasma6-ISO/*.log EndeavourOS-Plasma6-ISO/out/ && cd EndeavourOS-Plasma6-ISO/out && tar -czvf EndeavourOS-Community-hyprland-${{ env.NOW }}-iso.tar.gz *.sha512sum *.iso *.log"
+        
+      - name: Upload a backup to server_DEVEL
+        run: "curl -g -k -T EndeavourOS-Plasma6-ISO/out/*-iso.tar.gz -u ${{ secrets.SERVER_STRING_PRIVATE }}"
+      
