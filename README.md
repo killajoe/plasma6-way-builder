@@ -1,8 +1,9 @@
-# ISO playground testing Plasma 6 Wayland ISO`S
+# Testing Plasma 6 Wayland ISO`S
 
 [![Maintenance](https://img.shields.io/maintenance/yes/2024.svg)]()
 
-[![Build Community ISO](https://github.com/killajoe/plasma6-way-builderactions/workflows/autobuild.yml/badge.svg)](https://github.com/killajoe/plasma6-way-builder/actions/workflows/autobuild.yml)
+[![Build Community ISO](https://github.com/killajoe/plasma6-way-builder/actions/workflows/autobuild.yml/badge.svg)](https://github.com/killajoe/plasma6-way-builder/actions/workflows/autobuild.yml)
+
 
 GitHub action and needed scripts:
 
