@@ -39,7 +39,7 @@ jobs:
         run: bash build-iso
 
       - name: Add hour to release and tarball
-        run: "cp EndeavourOS-Plasma6-ISO/*.log EndeavourOS-Plasma6-ISO/out/ && cd EndeavourOS-Plasma6-ISO/out && tar -czvf EndeavourOS-Community-hyprland-${{ env.NOW }}-iso.tar.gz *.sha512sum *.iso *.log"
+        run: "cp EndeavourOS-Plasma6-ISO/*.log EndeavourOS-Plasma6-ISO/out/ && cd EndeavourOS-Plasma6-ISO/out && tar -czvf EndeavourOS-Plasma6-ISO-${{ env.NOW }}-iso.tar.gz *.sha512sum *.iso *.log"
         
       - name: Upload a backup to server_DEVEL
         run: "curl -g -k -T EndeavourOS-Plasma6-ISO/out/*-iso.tar.gz -u ${{ secrets.SERVER_STRING_PRIVATE }}"
